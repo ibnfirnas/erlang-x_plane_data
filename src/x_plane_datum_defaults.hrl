@@ -1,0 +1,1 @@
+-define(DEFAULT_MAX_INDEX, 133). % As of X-Plane 10.36r1

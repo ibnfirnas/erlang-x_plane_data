@@ -1,0 +1,12 @@
+{application, x_plane_data,
+ [
+  {description, "X-Plane UDP data packet parser."},
+  {vsn, "0.0.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  hope
+                 ]},
+  {env, []}
+ ]}.
