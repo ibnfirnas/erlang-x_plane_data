@@ -88,9 +88,9 @@ anonymous_of_bin(
         {error, {block_index_byte_out_of_range, Anonymous}}
     end;
 anonymous_of_bin(<<Block/binary>>, _) ->
-    % This case shouldn't be possible with a correct packet length, but we want to
-    % allow for possibility of using this module independently of it's parent,
-    % data module.
+    % This case shouldn't be possible with a correct packet length, but we want
+    % to allow for possibility of using this module independently of it's
+    % parent, data module.
     {error, {block_structure_invalid, Block}}.
 
 -spec identify_or_index(anonymous()) ->
