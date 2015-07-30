@@ -29,7 +29,7 @@ of_bin(<<Packet/binary>>) ->
 -spec of_bin(binary(), non_neg_integer()) ->
     hope_result:t(t(), parsing_error()).
 of_bin(<<"DATA", _PacketIndexByte:1/bytes, ContiguousBlocks/binary>>, MaxIndex) ->
-    % Packet index byte seems to be changing from X-Plane version to verion.
+    % Packet index byte seems to be changing from X-Plane version to version.
     % What is it's meaning?
     if byte_size(ContiguousBlocks) rem ?BYTE_SIZE_OF_EACH_BLOCK =:= 0 ->
             Blocks = blocks_split(ContiguousBlocks),
