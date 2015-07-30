@@ -2,3 +2,10 @@
 
 X-Plane UDP data parser
 =======================
+
+
+Data format references
+----------------------
+
+- http://b58.svglobe.com/data.html
+- http://www.nuclearprojects.com/xplane/xplaneref.html
