@@ -48,7 +48,7 @@ main(Port) ->
         , on_runwy  = OnRunwy
         , alt_ind   = AltInd
         , lat_south = LatSouth
-        , lat_west  = LatWest
+        , lon_west  = LatWest
         },
     } = hope_kv_list:get(XPlaneData, lat_lon_alt),
 

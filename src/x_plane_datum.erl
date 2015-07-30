@@ -127,7 +127,7 @@ identify_or_index({20, V1, V2, V3, V4, V5, V6, V7, V8}) ->
         , on_runwy  = V5
         , alt_ind   = V6
         , lat_south = V7
-        , lat_west  = V8
+        , lon_west  = V8
         },
     {lat_lon_alt, Datum};
 identify_or_index({Index, _, _, _, _, _, _, _, _}=Anonymous) ->

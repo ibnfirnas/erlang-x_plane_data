@@ -28,5 +28,5 @@
     , on_runwy  :: float() % 5
     , alt_ind   :: float() % 6
     , lat_south :: float() % 7
-    , lat_west  :: float() % 8
+    , lon_west  :: float() % 8
     }).
