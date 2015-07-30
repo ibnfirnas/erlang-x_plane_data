@@ -20,10 +20,37 @@ main(Port) ->
     % The types I've not yet labeled are in the format specified by
     % x_plane_datum:anonymous() and can be looked-up by their index number.
 
-    % Find a labeled data type
-    {some, #x_plane_datum_speeds{}} = hope_kv_list:get(XPlaneData, speeds),
-    {some, #x_plane_datum_pitch_roll_heading{}} = hope_kv_list:get(XPlaneData, pitch_roll_heading),
-    {some, #x_plane_datum_lat_lon_alt{}} = hope_kv_list:get(XPlaneData, lat_lon_alt),
+    % Find labeled data types
+    {some, #x_plane_datum_speeds
+        { vind_kias   = VindKias
+        , vind_keas   = VindKeas
+        , vtrue_ktas  = VtrueKtas
+        , vtrue_ktgs  = VtrueKtgs
+        , vind_mph    = VindMph
+        , vtrue_mphas = VtrueMphas
+        , vtrue_mphgs = VtrueMphgs
+        },
+    } = hope_kv_list:get(XPlaneData, speeds),
+
+    {some, #x_plane_datum_pitch_roll_heading
+        { pitch_deg  = PitchDeg
+        , roll_deg   = RollDeg
+        , hding_true = HdingTrue
+        , hding_mag  = HdingMag
+        },
+    } = hope_kv_list:get(XPlaneData, pitch_roll_heading),
+
+    {some, #x_plane_datum_lat_lon_alt
+        { lat_deg   = LatDeg
+        , lon_deg   = LonDeg
+        , alt_ftmsl = AltFtmsl
+        , alt_ftagl = AltFtagl
+        , on_runwy  = OnRunwy
+        , alt_ind   = AltInd
+        , lat_south = LatSouth
+        , lat_west  = LatWest
+        },
+    } = hope_kv_list:get(XPlaneData, lat_lon_alt),
 
     % Find an unlabled data type
     {some, {10, V1, V2, V3, V4, V5, V6, V7, V8}} = hope_kv_list:get(XPlaneData, 10),
