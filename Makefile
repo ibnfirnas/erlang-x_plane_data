@@ -42,7 +42,7 @@ deps-update:
 	@rebar update-deps
 
 dialyze:
-	@dialyzer ebin deps/hope/ebin
+	@dialyzer ebin
 
 test:
 	@rebar ct skip_deps=true --verbose=0

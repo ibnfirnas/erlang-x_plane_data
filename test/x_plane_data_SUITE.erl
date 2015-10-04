@@ -1,7 +1,5 @@
 -module(x_plane_data_SUITE).
 
--include_lib("x_plane_data.hrl").
-
 %% CT callbacks
 -export(
     [ all/0
@@ -40,32 +38,18 @@ t_basic_sanity_check(_Cfg) ->
     Test =
         fun (PacketBase64) ->
             Packet = base64:decode(PacketBase64),
-            MaxIndex = 133,
-            BadIndex = MaxIndex + 1,
-            FakeBlockData = list_to_binary(lists:seq(1, 32)),
-            FakeBlockOk       = <<MaxIndex:32/little-integer, FakeBlockData/binary>>,
-            FakeBlockBadIndex = <<BadIndex:32/little-integer, FakeBlockData/binary>>,
-            {error, {block_index_byte_out_of_range, {BadIndex,_,_,_,_,_,_,_,_}}} =
-                x_plane_data:of_bin(<<Packet/binary, FakeBlockBadIndex/binary>>),
-            {error, packet_unrecognized} =
-                x_plane_data:of_bin(<<"bad-header", Packet/binary>>),
-            {error, packet_length_invalid} =
-                x_plane_data:of_bin(<<Packet/binary, "extra-stuff">>),
-            {ok, Data} =
-                x_plane_data:of_bin(<<Packet/binary, FakeBlockOk/binary>>),
-            {some, #x_plane_datum_speeds{}} =
-                hope_kv_list:get(Data, speeds),
-            {some, #x_plane_datum_pitch_roll_heading{}} =
-                hope_kv_list:get(Data, pitch_roll_heading),
-            {some, #x_plane_datum_lat_lon_alt{}} =
-                hope_kv_list:get(Data, lat_lon_alt),
-            {some, {MaxIndex,_,_,_,_,_,_,_,_}} =
-                hope_kv_list:get(Data, MaxIndex),
+            {error, packet_bad_header} =
+                x_plane_data_raw:of_bin(<<"bad-header", Packet/binary>>),
+            {error, packet_bad_length} =
+                x_plane_data_raw:of_bin(<<Packet/binary, "extra-stuff">>),
+            {ok, {_, Groups}} =
+                x_plane_data_raw:of_bin(<<Packet/binary>>),
+            {some, {_, _, _, _, _, _, _, _}} = kv_list_find(Groups, 3),
+            {some, {_, _, _, _, _, _, _, _}} = kv_list_find(Groups, 17),
+            {some, {_, _, _, _, _, _, _, _}} = kv_list_find(Groups, 20),
             ok
         end,
     lists:foreach(Test, sample_packets_base64_encoded()).
-
-
 
 %% =============================================================================
 %% Sample data
@@ -74,3 +58,14 @@ t_basic_sanity_check(_Cfg) ->
 sample_packets_base64_encoded() ->
         [ <<"REFUQUADAAAAbcpGQLt81EBfZNlATnUoNwDAecSow2RAnCv6QLrbQTcRAAAA3i8VQFL3ZT6dPfFCx4IFQwDAecQAwHnEAMB5xADAecQUAAAA1ZciQg6ik8JGBv9AdDxoPgAAgD9G/o3CAAAgQgAAlsI=">>
         ].
+
+
+%% =============================================================================
+%% Helpers
+%% =============================================================================
+
+kv_list_find(KVL, K) ->
+    case lists:keyfind(K, 1, KVL)
+    of  false  -> none
+    ;   {K, V} -> {some, V}
+    end.
