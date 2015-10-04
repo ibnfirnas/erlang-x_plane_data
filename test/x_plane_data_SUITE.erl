@@ -49,9 +49,9 @@ t_basic_sanity_check(_Cfg) ->
                 x_plane_data:of_bin(<<Packet/binary, FakeBlockBadIndex/binary>>),
             {error, packet_unrecognized} =
                 x_plane_data:of_bin(<<"bad-header", Packet/binary>>),
-            {error, packet_length_invalid} = 
+            {error, packet_length_invalid} =
                 x_plane_data:of_bin(<<Packet/binary, "extra-stuff">>),
-            {ok, Data} = 
+            {ok, Data} =
                 x_plane_data:of_bin(<<Packet/binary, FakeBlockOk/binary>>),
             {some, #x_plane_datum_speeds{}} =
                 hope_kv_list:get(Data, speeds),
