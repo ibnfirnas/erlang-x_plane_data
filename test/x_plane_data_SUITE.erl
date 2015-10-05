@@ -1,5 +1,9 @@
 -module(x_plane_data_SUITE).
 
+-include_lib("x_plane_data_group_lat_lon_alt.hrl").
+-include_lib("x_plane_data_group_pitch_roll_heading.hrl").
+-include_lib("x_plane_data_group_speeds.hrl").
+
 %% CT callbacks
 -export(
     [ all/0
@@ -8,7 +12,8 @@
 
 %% Test cases
 -export(
-    [ t_basic_sanity_check/1
+    [ t_bin_to_raw/1
+    , t_bin_to_raw_to_named/1
     ]).
 
 -define(GROUP, x_plane_data).
@@ -23,7 +28,8 @@ all() ->
 
 groups() ->
     Tests =
-        [ t_basic_sanity_check
+        [ t_bin_to_raw
+        , t_bin_to_raw_to_named
         ],
     Properties = [parallel],
     [ {?GROUP, Properties, Tests}
@@ -34,7 +40,7 @@ groups() ->
 %%  Test cases
 %% =============================================================================
 
-t_basic_sanity_check(_Cfg) ->
+t_bin_to_raw(_Cfg) ->
     Test =
         fun (PacketBase64) ->
             Packet = base64:decode(PacketBase64),
@@ -76,6 +82,48 @@ t_basic_sanity_check(_Cfg) ->
             , 40.0
             , -75.0
             } = Group20,
+            ok
+        end,
+    lists:foreach(Test, sample_packets_base64_encoded()).
+
+t_bin_to_raw_to_named(_Cfg) ->
+    Test =
+        fun (PacketBase64) ->
+            Packet = base64:decode(PacketBase64),
+            {ok, DataRaw} = x_plane_data_raw:of_bin(Packet),
+            ct:log("DataRaw: ~p", [DataRaw]),
+            {64, _} = DataRaw,
+            {ok, DataNamed} = x_plane_data_named:of_raw(DataRaw),
+            ct:log("DataNamed: ~p", [DataNamed]),
+            {x_plane_data_v10, Groups} = DataNamed,
+            {some, #x_plane_data_group_speeds
+                { vind_kias   = 3.106105089187622
+                , vind_keas   = 6.640225887298584
+                , vtrue_ktas  = 6.793502330780029
+                , vtrue_ktgs  = 1.0040892448159866e-5
+                , vind_mph    = 3.574441909790039
+                , vtrue_mphas = 7.81782341003418
+                , vtrue_mphgs = 1.1554855518625118e-5
+                }
+            } = kv_list_find(Groups, speeds),
+            {some, #x_plane_data_group_pitch_roll_heading
+                { pitch_deg  = 2.3310465812683105
+                , roll_deg   = 0.22457626461982727
+                , hding_true = 120.6203384399414
+                , hding_mag  = 133.51084899902344
+                }
+            } = kv_list_find(Groups, pitch_roll_heading),
+            {some, #x_plane_data_group_lat_lon_alt
+                { lat_deg   = 40.64827346801758
+                , lon_deg   = -73.81651306152344
+                , alt_ftmsl = 7.969515800476074
+                , alt_ftagl = 0.226793110370636
+                , on_runwy  = 1.0
+                , alt_ind   = -70.99662780761719
+                , lat_south = 40.0
+                , lon_west  = -75.0
+                }
+            } = kv_list_find(Groups, lat_lon_alt),
             ok
         end,
     lists:foreach(Test, sample_packets_base64_encoded()).
