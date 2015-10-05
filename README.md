@@ -58,9 +58,11 @@ Here we identify what each of the numbered groups mean in a given X-Plane
 version. Right now only X-Plane 10 is supported and I only identified 3 groups
 so far:
 
-- index: `3` , name: `speeds`
-- index: `17`, name: `pitch_roll_heading`
-- index: `20`, name: `lat_lon_alt`
+| packet index | group index | group name           |
+|--------------|-------------|----------------------|
+| 64           | 3           | `speeds`             |
+| 64           | 17          | `pitch_roll_heading` |
+| 64           | 20          | `lat_lon_alt`        |
 
 Unidentified groups (with index other than what is listed above) will be
 absent from the list of named groups (think of `x_plane_data_named:of_raw/1` as
