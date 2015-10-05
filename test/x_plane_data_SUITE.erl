@@ -42,11 +42,40 @@ t_basic_sanity_check(_Cfg) ->
                 x_plane_data_raw:of_bin(<<"bad-header", Packet/binary>>),
             {error, packet_bad_length} =
                 x_plane_data_raw:of_bin(<<Packet/binary, "extra-stuff">>),
-            {ok, {_, Groups}} =
+            {ok, {Index, Groups}} =
                 x_plane_data_raw:of_bin(<<Packet/binary>>),
-            {some, {_, _, _, _, _, _, _, _}} = kv_list_find(Groups, 3),
-            {some, {_, _, _, _, _, _, _, _}} = kv_list_find(Groups, 17),
-            {some, {_, _, _, _, _, _, _, _}} = kv_list_find(Groups, 20),
+            ct:log("Index: ~p", [Index]),
+            ct:log("Groups: ~p", [Groups]),
+            {some, Group3 } = kv_list_find(Groups, 3),
+            {some, Group17} = kv_list_find(Groups, 17),
+            {some, Group20} = kv_list_find(Groups, 20),
+            { 3.106105089187622
+            , 6.640225887298584
+            , 6.793502330780029
+            , 1.0040892448159866e-5
+            , -999.0
+            , 3.574441909790039
+            , 7.81782341003418
+            , 1.1554855518625118e-5
+            } = Group3,
+            { 2.3310465812683105
+            , 0.22457626461982727
+            , 120.6203384399414
+            , 133.51084899902344
+            , -999.0
+            , -999.0
+            , -999.0
+            , -999.0
+            } = Group17,
+            { 40.64827346801758
+            , -73.81651306152344
+            , 7.969515800476074
+            , 0.226793110370636
+            , 1.0
+            , -70.99662780761719
+            , 40.0
+            , -75.0
+            } = Group20,
             ok
         end,
     lists:foreach(Test, sample_packets_base64_encoded()).
