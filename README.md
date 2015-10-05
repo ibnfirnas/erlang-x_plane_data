@@ -55,8 +55,8 @@ interpreting the values have been made:
 #### Named
 
 Here we identify what each of the numbered groups mean in a given X-Plane
-version. Right now only X-Plane 10 is supported and I only identified 3 groups
-so far:
+version. Right now only X-Plane 10 (packet index 64) is supported and I only
+identified 3 groups so far:
 
 | packet index | group index | group name           |
 |--------------|-------------|----------------------|
