@@ -75,9 +75,9 @@ a filter), so you'll have to access their raw version, if needed.
 
 ##### Access
 ```erlang
--include_lib("x_plane_data_group_lat_lon_alt.hrl").
--include_lib("x_plane_data_group_pitch_roll_heading.hrl").
--include_lib("x_plane_data_group_speeds.hrl").
+-include_lib("x_plane_data/include/x_plane_data_group_lat_lon_alt.hrl").
+-include_lib("x_plane_data/include/x_plane_data_group_pitch_roll_heading.hrl").
+-include_lib("x_plane_data/include/x_plane_data_group_speeds.hrl").
 
 ...
 
