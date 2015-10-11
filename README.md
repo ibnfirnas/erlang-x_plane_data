@@ -77,12 +77,7 @@ a filter), so you'll have to access their raw version, if needed.
 
 ##### Access
 ```erlang
--include_lib("x_plane_data/include/x_plane_data_group_lat_lon_alt.hrl").
--include_lib("x_plane_data/include/x_plane_data_group_pitch_roll_heading.hrl").
 -include_lib("x_plane_data/include/x_plane_data_group_speeds.hrl").
-
-...
-
 {speeds, #x_plane_data_group_speeds
     { vind_kias   = VindKias
     , vind_keas   = VindKeas
@@ -94,6 +89,9 @@ a filter), so you'll have to access their raw version, if needed.
     }
 } = lists:keyfind(speeds, 1, GroupsNamed),
 
+...
+
+-include_lib("x_plane_data/include/x_plane_data_group_pitch_roll_heading.hrl").
 {pitch_roll_heading, #x_plane_data_group_pitch_roll_heading
     { pitch_deg  = PitchDeg
     , roll_deg   = RollDeg
