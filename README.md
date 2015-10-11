@@ -101,8 +101,44 @@ a filter), so you'll have to access their raw version, if needed.
 } = lists:keyfind(pitch_roll_heading, 1, GroupsNamed),
 ```
 
-Data format references
-----------------------
+Packet structure
+----------------
 
+```erlang
+<<"DATA", PacketIndex:8/integer, Groups/binary>>,
+<< GroupIndex:32/little-integer
+ , GroupValue1:32/little-float
+ , GroupValue2:32/little-float
+ , GroupValue3:32/little-float
+ , GroupValue4:32/little-float
+ , GroupValue5:32/little-float
+ , GroupValue6:32/little-float
+ , GroupValue7:32/little-float
+ , GroupValue8:32/little-float
+ , GroupsRest/binary
+>> = Groups,
+```
+
+Where `PacketIndex` indicates something like a schema version, i.e. what each
+of the numbered groups means. For example, in X-Plane 10, packet index is 64
+(character `"@"`) and group 3 contains speed data, in which the 8 group values
+are:
+
+| Location | Label         | Description |
+|----------|---------------|-------------|
+|    1     | `vind_kias`   | Velocity indicated, in knots indicated airspeed. |
+|    2     | `vind_keas`   | Velocity indicated, in knots equivalent airspeed (the calibrated airspeed corrected for adiabatic compressible flow at the craft's current altitude). |
+|    3     | `vtrue_ktas`  | Velocity true (the speed of the craft relative to undisturbed air), in knots true airspeed. |
+|    4     | `vtrue_ktgs`  | Velocity true, in knots true ground speed. |
+|    5     |               | Unused. Contains a dummy value. |
+|    6     | `vind_mph`    | Velocity indicated, in miles per hour. |
+|    7     | `vtrue_mphas` | Velocity true, in miles per hour airspeed. |
+|    8     | `vtrue_mphgs` | Velocity true, in miles per hour ground speed. |
+
+
+References
+----------
+
+- `X-Plane_10_manual.pdf` (distributed with X-Plane 10)
 - http://b58.svglobe.com/data.html
 - http://www.nuclearprojects.com/xplane/xplaneref.html
