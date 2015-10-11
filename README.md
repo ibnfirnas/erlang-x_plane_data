@@ -3,6 +3,8 @@
 X-Plane UDP data parser
 =======================
 
+![Data output in the cockpit](screenshot.png)
+
 Examples
 --------
 
