@@ -99,6 +99,21 @@ a filter), so you'll have to access their raw version, if needed.
     , hding_mag  = HdingMag
     }
 } = lists:keyfind(pitch_roll_heading, 1, GroupsNamed),
+
+...
+
+-include_lib("x_plane_data/include/x_plane_data_group_lat_lon_alt.hrl").
+{lat_lon_alt, #x_plane_data_group_lat_lon_alt
+    { lat_deg   = LatDeg
+    , lon_deg   = LonDeg
+    , alt_ftmsl = AltFtmsl
+    , alt_ftagl = AltFtagl
+    , on_runwy  = OnRunwy
+    , alt_ind   = AltInd
+    , lat_south = LatSouth
+    , lon_west  = LonWest
+    }
+} = lists:keyfind(lat_lon_alt, 1, GroupsNamed),
 ```
 
 Packet structure
