@@ -25,7 +25,7 @@ Examples
 
 #### Raw
 
-At this stage, only the structure of the packet was parsed. No attempt at
+At this stage, only the structure of the packet was parsed. No attempts at
 interpreting the values have been made:
 
 ```erlang
